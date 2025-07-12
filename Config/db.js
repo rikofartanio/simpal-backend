@@ -11,7 +11,13 @@ const dbPort = process.env.DB_PORT;
 const sequelize = new Sequelize(dbName,dbUser,dbPass,{
     host : dbHost,
     port : dbPort,
-    dialect: 'postgres'
+    dialect: 'postgres',
+    dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false
+    }
+  }
 });
 
 module.exports = sequelize;
