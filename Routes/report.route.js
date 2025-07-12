@@ -1,5 +1,5 @@
 const express= require('express');
-const { getAllReports, createReport, updateReportStatus, updateReport, deleteReport } = require('../controllers/report.controller');
+const { getAllReports, createReport, updateReportStatus, updateReport, deleteReport } = require('../Controllers/report.controller');
 const upload = require('../Middlewares/upload');
 const verifyToken = require('../Middlewares/verifyToken');
 const isAdmin = require('../Middlewares/isAdmin');
