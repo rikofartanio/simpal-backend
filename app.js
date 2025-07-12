@@ -29,6 +29,10 @@ initDB();
 //     console.log ('simpal server runing on port '+ port)
 // })
 
+app.get('/', (req, res) => {
+  res.send('Simpal Backend API is running');
+});
+
 // Export handler untuk Vercel
 module.exports = app;
 module.exports.handler = serverless(app);
