@@ -37,19 +37,13 @@
 // module.exports = app;
 // module.exports.handler = serverless(app);
 
-
 const express = require('express');
 const cors = require('cors');
 const serverless = require('serverless-http');
 
 const app = express();
 
-app.use(cors({
-  origin: 'https://simpal-frontend.vercel.app',
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true
-}));
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -61,17 +55,24 @@ const authRoutes = require('./Routes/auth.route');
 app.use('/api', reportRoute);
 app.use('/api', divisionRoute);
 app.use('/api/auth', authRoutes);
-
 app.use('/uploads', express.static('uploads'));
 
 // Init DB
 const { initDB } = require('./Models');
-initDB();
 
-// Serverless export for Vercel
+(async () => {
+  try {
+    await initDB();
+    console.log("✅ DB initialized successfully");
+  } catch (err) {
+    console.error("❌ DB initialization failed:", err);
+  }
+})();
+
+// Health Check
 app.get('/', (req, res) => {
   res.send('Simpal Backend API is running');
 });
 
-module.exports = app;
-module.exports.handler = serverless(app);
+module.exports = serverless(app);
+
